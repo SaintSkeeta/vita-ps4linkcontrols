@@ -117,25 +117,17 @@ int module_start(SceSize argc, const void *args)
 
     uint32_t offsets[4];
 
-    switch (info.module_nid) {
-    case 0x48A4A1C1: // 3.60
+    if (info.module_nid == 0x48A4A1C1) {  // 3.60
         offsets[0] = 0x47a4c;
         offsets[1] = 0x4612c;
         offsets[2] = 0x457a8;
         offsets[3] = 0x48C10;
-        break;
-
-    case 0x4bc536e4: // 3.65
-    case 0x75CFBD26: // 3.68
+    }
+    else { // 0x4bc536e4 for 3.65, 0x75CFBD26 for 3.68, or newer firmware versions
         offsets[0] = 0x47d2c;
         offsets[1] = 0x4640c;
         offsets[2] = 0x45a88;
         offsets[3] = 0x48EF0;
-        break;
-
-    default:
-        LOG("ScePS4Link %X NID not recognized", info.module_nid);
-        return SCE_KERNEL_START_FAILED;
     }
 
     load_config();
